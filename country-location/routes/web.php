@@ -2,6 +2,13 @@
 
 use Illuminate\Support\Facades\Route;
 
+Route::get('/login', function () {
+    return response()->json([
+        'status' => 'Error',
+        'message' => 'Something Went Wrong!',
+    ],404);
+});
+
 Route::get('/', function () {
     return view('welcome');
 });
