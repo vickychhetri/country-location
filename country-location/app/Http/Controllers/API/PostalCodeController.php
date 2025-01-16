@@ -126,7 +126,7 @@ class PostalCodeController extends Controller
         $longitude = $request->longitude;
         $radius = $request->radius ?? 10;
 
-        $locations = PostalCode::scopeNearby($latitude, $longitude, $radius)->get();
+        $locations = PostalCode::Nearby($latitude, $longitude, $radius)->get();
 
         return response()->json([
             'status' => 'success',
