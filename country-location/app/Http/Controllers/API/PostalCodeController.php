@@ -115,7 +115,7 @@ class PostalCodeController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function nearby(Request $request)
+    public function nearby_v2(Request $request)
     {
         $request->validate([
             'latitude' => 'required|numeric',
@@ -127,18 +127,8 @@ class PostalCodeController extends Controller
         $longitude = $request->longitude;
         $radius = $request->radius ?? 10;
 
-        $locations = DB::table('postal_codes')
-            ->select('*', DB::raw("(6371 * acos(cos(radians($latitude))
-                        * cos(radians(latitude))
-                        * cos(radians(longitude) - radians($longitude))
-                        + sin(radians($latitude))
-                        * sin(radians(latitude)))) AS distance"))
-            ->having('distance', '<=', $radius)
-            ->orderBy('distance', 'asc')
-            ->get();
+        $locations = PostalCode::nearby($latitude, $longitude, $radius)->get();
 
-        $lastQuery = DB::getQueryLog();
-        dd(end($lastQuery));
 
         return response()->json([
             'status' => 'success',
