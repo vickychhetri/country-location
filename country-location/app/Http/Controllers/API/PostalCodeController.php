@@ -120,7 +120,7 @@ class PostalCodeController extends Controller
         $request->validate([
             'latitude' => 'required|numeric',
             'longitude' => 'required|numeric',
-            'radius' => 'numeric|min:1|max:50', // Default radius is 10 km
+            'radius' => 'numeric|min:1|max:50',
         ]);
 
         $latitude = $request->latitude;
@@ -136,6 +136,9 @@ class PostalCodeController extends Controller
             ->having('distance', '<=', $radius)
             ->orderBy('distance', 'asc')
             ->get();
+
+        $lastQuery = DB::getQueryLog();
+        dd(end($lastQuery));
 
         return response()->json([
             'status' => 'success',
