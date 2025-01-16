@@ -1,5 +1,5 @@
 ---
 deployment:
   tasks:
-    - export DEPLOYPATH=/home/vahanlok/api.countrylocation.com
+    - export DEPLOYPATH=/home/vahanlok/api.countrylocation.com/country-location/country-location
     - /bin/cp -R * $DEPLOYPATH
