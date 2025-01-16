@@ -53,13 +53,20 @@ class PostalCode extends Model
      * @param  float $radius
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeNearby($query, float $latitude, float $longitude, float $radius = 10)
+    public function scopeNearby($query, $latitude, $longitude, $radius = 50)
     {
-        $haversine = "(6371 * acos(cos(radians(?)) * cos(radians(latitude)) * cos(radians(longitude) - radians(?)) + sin(radians(?)) * sin(radians(latitude))))";
-        return $query->selectRaw("{$haversine} AS distance", [$latitude, $longitude, $latitude])
+        $haversine = "(6371 * acos(cos(radians(?))
+                    * cos(radians(latitude))
+                    * cos(radians(longitude) - radians(?))
+                    + sin(radians(?))
+                    * sin(radians(latitude))))";
+
+        return $query->select('*')
+            ->selectRaw("$haversine AS distance", [$latitude, $longitude, $latitude])
             ->having('distance', '<=', $radius)
             ->orderBy('distance', 'asc');
     }
+
 
     /**
      * Get location details as an array.
