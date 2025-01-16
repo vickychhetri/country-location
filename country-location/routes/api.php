@@ -19,7 +19,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('postal-codes/{postalCode}', [PostalCodeController::class, 'show']);
 
     //GET /api/postal-codes/nearby?latitude=19.36&longitude=73.32&radius=15
-    Route::get('postal-codes/nearby', [PostalCodeController::class, 'nearby']);
+    Route::get('postal-codes/nearby/area', [PostalCodeController::class, 'nearby_v2']);
 
 
     Route::post('logout', [AuthController::class, 'logout']);
