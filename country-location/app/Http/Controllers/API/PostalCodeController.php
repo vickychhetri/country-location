@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Models\PostalCode;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class PostalCodeController extends Controller
 {
@@ -126,7 +127,15 @@ class PostalCodeController extends Controller
         $longitude = $request->longitude;
         $radius = $request->radius ?? 10;
 
-        $locations = PostalCode::nearby($latitude, $longitude, $radius)->get();
+        $locations = DB::table('postal_codes')
+            ->select('*', DB::raw("(6371 * acos(cos(radians($latitude))
+                        * cos(radians(latitude))
+                        * cos(radians(longitude) - radians($longitude))
+                        + sin(radians($latitude))
+                        * sin(radians(latitude)))) AS distance"))
+            ->having('distance', '<=', $radius)
+            ->orderBy('distance', 'asc')
+            ->get();
 
         return response()->json([
             'status' => 'success',
