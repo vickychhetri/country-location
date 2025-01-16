@@ -159,7 +159,7 @@
 
         <div class="mb-4">
             <h4>3. Find Nearby Locations</h4>
-            <p><strong>GET</strong> <code>/api/postal-codes/nearby</code></p>
+            <p><strong>GET</strong> <code>/api/postal-codes/nearby/area</code></p>
             <p>Finds postal codes near a specific latitude and longitude.</p>
             <h6>Query Parameters:</h6>
             <ul>
@@ -168,7 +168,7 @@
                 <li><code>radius</code> (numeric, optional) - Search radius in kilometers (default: 10).</li>
             </ul>
             <h6>Example Request:</h6>
-            <pre>GET /api/postal-codes/nearby?latitude=19.36&longitude=73.32&radius=15</pre>
+            <pre>GET /api/postal-codes/nearby/area?latitude=19.36&longitude=73.32&radius=15</pre>
             <h6>Example Response:</h6>
             <pre>
 {
